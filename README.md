@@ -27,13 +27,13 @@ This projects contains the following features:
 
 ## 🔧 Setup Instructions
 
-**Step 1.** In order to use the Pi-hole's API, you have to authenticate. This authenticate process will return to you session information, such as `sid` and `csrf`.
+**Step 1.** To access the Pi-hole API, authentication is required. This process returns session details, including the `sid` and `csrf` tokens.
 
 ```bash
 curl -k -X POST "https://pi.hole/api/auth" --data '{"password":"your-password"}'
 ```
 
-Just replace `your-password` by your actual password. If everything went well, you should see the following as output :
+Just replace `your-password` by your actual password. If everything went well, you would see the following json as output:
 
 ```json
 {
@@ -47,8 +47,7 @@ Just replace `your-password` by your actual password. If everything went well, y
   "took": 0.0002
 }
 ```
-
-For more information, please read [the authentication page](https://docs.pi-hole.net/api/auth/).
+You will need the `sid` and `csrf`. For more information, please read [the authentication page](https://docs.pi-hole.net/api/auth/).
 
 
 **Step 1.** Add your Pi-hole credentials to `secrets.yaml`:
