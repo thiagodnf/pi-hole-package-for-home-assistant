@@ -51,7 +51,7 @@ homeassistant:
   packages: !include_dir_named packages
 ```
 
-**Step 3.** Open `pihole.yaml`, locate all instances of `<PIHOLE_SERVER_URL>`, and replace them with the actual IP address or hostname of your Pi-hole server. For example:
+**Step 4.** Open `pihole.yaml`, locate all instances of `<PIHOLE_SERVER_URL>`, and replace them with the actual IP address or hostname of your Pi-hole server. For example:
 
 From:
 
