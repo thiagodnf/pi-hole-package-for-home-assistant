@@ -30,10 +30,10 @@ This projects contains the following features:
 **Step 1.** To access the Pi-hole API, authentication is required. This process returns session details, including the `sid` and `csrf` tokens.
 
 ```bash
-curl -k -X POST "https://pi.hole/api/auth" --data '{"password":"your-password"}'
+curl -k -X POST "<PIHOLE_SERVER_URL>/api/auth" --data '{"password":"your-password"}'
 ```
 
-Just replace `your-password` by your actual password. If everything went well, you would see the following json as output:
+Just replace `<PIHOLE_SERVER_URL>` by the actual IP address or hostname of your Pi-hole server and `your-password` by your actual password. If everything went well, you would see the following json as output:
 
 ```json
 {
