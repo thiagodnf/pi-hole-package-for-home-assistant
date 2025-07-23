@@ -39,7 +39,7 @@ pihole_csrf: "yourCsrf="
 ```
 custom_components/
 packages/
-    pihole.yaml         # The the package file here
+    pihole.yaml         # Add the package file here
 secrets.yaml            # Required secrets
 configuration.yaml      # Must include the package
 ```
