@@ -25,9 +25,7 @@ This projects contains the following features:
 - Scripts for:
   - Update gravity
 
-
-
-## Setting it up
+## 🔧 Setup Instructions
 
 **Step 1.** Add your Pi-hole credentials to `secrets.yaml`:
 
