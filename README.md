@@ -34,3 +34,19 @@ packages/
 secrets.yaml            # Required secrets
 configuration.yaml      # Must include the package
 ```
+
+## Setting it up
+
+Step 1. Create a secret value and replace by the correct `sid` and `csrf` values.
+
+```yaml
+pihole_sid: "yourSid="
+pihole_csrf: "yourCsrf="
+```
+
+Step 1. Create a new file using the file structure 
+
+Step 3. Change the IP address for your pi-hole server
+
+
+S

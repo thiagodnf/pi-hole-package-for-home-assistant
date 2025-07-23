@@ -1,0 +1,107 @@
+rest_command:
+  update_gravity:
+    url: "<PIHOLE_SERVER_URL>/api/action/gravity"
+    method: POST
+    headers:
+      "X-FTL-SID": !secret pihole_sid
+      "X-FTL-CSRF": !secret pihole_csrf
+    timeout: 120
+
+script:
+  pihole_update_gravity_button:
+    alias: "Pihole Update Gravity"
+    sequence:
+      - action: rest_command.update_gravity
+
+switch:
+  - platform: rest
+    name: "Pihole DNS Blocking Control"
+    unique_id: pihole_dns_blocking_control
+    resource: <PIHOLE_SERVER_URL>/api/dns/blocking
+    scan_interval: 10
+    body_on: '{"blocking": true }'
+    body_off: '{"blocking": false }'
+    is_on_template: "{{ value_json.blocking == 'enabled' }}"
+    headers:
+      "X-FTL-SID": !secret pihole_sid
+      "X-FTL-CSRF": !secret pihole_csrf
+    
+rest: 
+  - authentication: basic
+    scan_interval: 30
+    resource: <PIHOLE_SERVER_URL>/api/stats/summary
+    headers:
+      "X-FTL-SID": !secret pihole_sid
+      "X-FTL-CSRF": !secret pihole_csrf
+    sensor:
+      - name: Pihole Queries Blocked
+        unique_id: pihole_stats_summary_queries_blocked
+        value_template: "{{ value_json.queries.blocked}}"
+        state_class: measurement
+        icon: mdi:shield-lock
+      - name: Pihole Total Queries
+        unique_id: pihole_stats_summary_total_queries
+        value_template: "{{ value_json.queries.total}}"
+        state_class: measurement
+        icon: mdi:speedometer
+      - name: Pihole Queries Forwarded
+        unique_id: pihole_stats_summary_forwarded
+        value_template: "{{ value_json.queries.forwarded}}"
+        state_class: measurement
+        icon: mdi:forward
+      - name: Pihole Queries Cached
+        unique_id: pihole_stats_summary_cached
+        value_template: "{{ value_json.queries.cached}}"
+        state_class: measurement
+        icon: mdi:cached
+      - name: Pihole Percent Blocked
+        unique_id: pihole_stats_summary_percent_blocked
+        value_template: "{{ value_json.queries.percent_blocked | round(1)}}"
+        state_class: measurement
+        icon: mdi:percent
+        unit_of_measurement: "%"
+      - name: Pihole Unique Domains
+        unique_id: pihole_stats_summary_unique_domains
+        value_template: "{{ value_json.queries.unique_domains}}"
+        state_class: measurement
+        icon: mdi:domain
+      - name: Pihole Clients Active
+        unique_id: pihole_stats_summary_clients_active
+        value_template: "{{ value_json.clients.active }}"
+        state_class: measurement
+        icon: mdi:account
+      - name: Pihole Clients Total
+        unique_id: pihole_stats_summary_clients_total
+        value_template: "{{ value_json.clients.total }}"
+        state_class: measurement
+        icon: mdi:account-group
+      - name: Pihole Domains Being Blocked
+        unique_id: pihole_stats_summary_gravity_domains_being_blocked
+        value_template: "{{ value_json.gravity.domains_being_blocked }}"
+        state_class: measurement
+        icon: mdi:shield-off-outline
+      - name: Pihole Gravity Last Update
+        unique_id: pihole_stats_summary_gravity_last_update
+        value_template: "{{ value_json.gravity.last_update | as_datetime }}"
+        device_class: timestamp
+        icon: mdi:clock-check
+
+  - authentication: basic
+    scan_interval: 30
+    resource: <PIHOLE_SERVER_URL>/api/info/version
+    headers:
+      "X-FTL-SID": !secret pihole_sid
+      "X-FTL-CSRF": !secret pihole_csrf
+    sensor:
+      - name: Pihole Version Core
+        unique_id: pihole_version_core
+        value_template: "{{ value_json.version.core.local.version}}"
+        icon: mdi:update
+      - name: Pihole Version Web
+        unique_id: pihole_version_web
+        value_template: "{{ value_json.version.web.local.version}}"
+        icon: mdi:update
+      - name: Pihole Version FTL
+        unique_id: pihole_version_ftl
+        value_template: "{{ value_json.version.ftl.local.version}}"
+        icon: mdi:update
