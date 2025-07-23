@@ -40,8 +40,8 @@ Just replace `<PIHOLE_SERVER_URL>` by the actual IP address or hostname of your 
   "session": {
     "valid": true,
     "totp": false,
-    "sid": "vFA+EP4MQ5JJvJg+3Q2Jnw=",
-    "csrf": "Ux87YTIiMOf/GKCefVIOMw=",
+    "sid": "vFA+EP4MQ5JJvJg+3Q2Jnw=",  // You will use it later
+    "csrf": "Ux87YTIiMOf/GKCefVIOMw=", // You will use it later
     "validity": 300
   },
   "took": 0.0002
