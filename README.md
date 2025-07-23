@@ -37,16 +37,14 @@ configuration.yaml      # Must include the package
 
 ## Setting it up
 
-Step 1. Create a secret value and replace by the correct `sid` and `csrf` values.
+**Step 1.** Add your Pi-hole credentials to `secrets.yaml`:
 
 ```yaml
 pihole_sid: "yourSid="
 pihole_csrf: "yourCsrf="
 ```
 
-Step 1. Create a new file using the file structure 
+**Step 2.** Create the package file following the project file structure.
 
-Step 3. Change the IP address for your pi-hole server
+**Step 3.** Update the Pi-hole server IP address in the package configuration.
 
-
-S
