@@ -51,31 +51,17 @@ homeassistant:
   packages: !include_dir_named packages
 ```
 
-**Step 3.** Update the Pi-hole server IP address in the package configuration. For instance:
+**Step 3.** Open `pihole.yaml`, locate all instances of `<PIHOLE_SERVER_URL>`, and replace them with the actual IP address or hostname of your Pi-hole server. For example:
 
 From:
 
 ```yaml
-rest_command:
-  update_gravity:
-    url: "<PIHOLE_SERVER_URL>/api/action/gravity"
-    method: POST
-    headers:
-      "X-FTL-SID": !secret pihole_sid
-      "X-FTL-CSRF": !secret pihole_csrf
-    timeout: 120
+url: "<PIHOLE_SERVER_URL>/api/action/gravity"
 ```
 
 To:
 
 ```yaml
-rest_command:
-  update_gravity:
-    url: "192.168.1.72/api/action/gravity"
-    method: POST
-    headers:
-      "X-FTL-SID": !secret pihole_sid
-      "X-FTL-CSRF": !secret pihole_csrf
-    timeout: 120
+url: "192.168.1.72/api/action/gravity"
 ```
 
