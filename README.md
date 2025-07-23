@@ -25,15 +25,7 @@ This projects contains the following features:
 - Scripts for:
   - Update gravity
 
-## 📁 File Structure
 
-```
-custom_components/
-packages/
-    pihole.yaml         # Main package file
-secrets.yaml            # Required secrets
-configuration.yaml      # Must include the package
-```
 
 ## Setting it up
 
@@ -46,5 +38,48 @@ pihole_csrf: "yourCsrf="
 
 **Step 2.** Create the package file following the project file structure.
 
-**Step 3.** Update the Pi-hole server IP address in the package configuration.
+## 📁 File Structure
+
+```
+custom_components/
+packages/
+    pihole.yaml         # The the package file here
+secrets.yaml            # Required secrets
+configuration.yaml      # Must include the package
+```
+
+**Step 3.** Update the `configuration.yaml` file adding the following:
+
+```yaml
+homeassistant:
+  packages: !include_dir_named packages
+```
+
+**Step 3.** Update the Pi-hole server IP address in the package configuration. For instance:
+
+From:
+
+```yaml
+rest_command:
+  update_gravity:
+    url: "<PIHOLE_SERVER_URL>/api/action/gravity"
+    method: POST
+    headers:
+      "X-FTL-SID": !secret pihole_sid
+      "X-FTL-CSRF": !secret pihole_csrf
+    timeout: 120
+```
+
+To:
+
+```yaml
+rest_command:
+  update_gravity:
+    url: "192.168.1.72/api/action/gravity"
+    method: POST
+    headers:
+      "X-FTL-SID": !secret pihole_sid
+      "X-FTL-CSRF": !secret pihole_csrf
+    timeout: 120
+```
 
