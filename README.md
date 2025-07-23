@@ -34,7 +34,7 @@ pihole_sid: "yourSid="
 pihole_csrf: "yourCsrf="
 ```
 
-**Step 2.** Create the package file following the project file structure.
+**Step 2.** Create a folder named "packages" and place `pihole.yaml` inside it, following the structure below.
 
 ```
 custom_components/
