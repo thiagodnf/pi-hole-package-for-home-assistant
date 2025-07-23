@@ -36,8 +36,6 @@ pihole_csrf: "yourCsrf="
 
 **Step 2.** Create the package file following the project file structure.
 
-## 📁 File Structure
-
 ```
 custom_components/
 packages/
