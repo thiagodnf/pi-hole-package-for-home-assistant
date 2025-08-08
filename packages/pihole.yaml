@@ -1,6 +1,13 @@
 rest_command:
   update_gravity:
-    url: "<PIHOLE_SERVER_URL>/api/action/gravity"
+    url: "http://<IP_PIHOLE>/api/action/gravity"
+    method: POST
+    headers:
+      "X-FTL-SID": !secret pihole_sid
+      "X-FTL-CSRF": !secret pihole_csrf
+    timeout: 120
+  flush_logs:
+    url: "http://<IP_PIHOLE>/api/action/flush/logs"
     method: POST
     headers:
       "X-FTL-SID": !secret pihole_sid
@@ -8,16 +15,22 @@ rest_command:
     timeout: 120
 
 script:
-  pihole_update_gravity_button:
-    alias: "Pihole Update Gravity"
+  pihole_script_update_gravity:
+    alias: "Pihole Script Update Gravity"
+    icon: mdi:update
     sequence:
       - action: rest_command.update_gravity
+  pihole_script_flush_logs:
+    alias: "Pihole Script Flush Logs"
+    icon: mdi:delete-outline
+    sequence:
+      - action: rest_command.flush_logs
 
 switch:
   - platform: rest
     name: "Pihole DNS Blocking Control"
     unique_id: pihole_dns_blocking_control
-    resource: <PIHOLE_SERVER_URL>/api/dns/blocking
+    resource: http://<IP_PIHOLE>/api/dns/blocking
     scan_interval: 10
     body_on: '{"blocking": true }'
     body_off: '{"blocking": false }'
@@ -25,11 +38,11 @@ switch:
     headers:
       "X-FTL-SID": !secret pihole_sid
       "X-FTL-CSRF": !secret pihole_csrf
-    
-rest: 
+
+rest:
   - authentication: basic
     scan_interval: 30
-    resource: <PIHOLE_SERVER_URL>/api/stats/summary
+    resource: http://<IP_PIHOLE>/api/stats/summary
     headers:
       "X-FTL-SID": !secret pihole_sid
       "X-FTL-CSRF": !secret pihole_csrf
@@ -88,7 +101,7 @@ rest:
 
   - authentication: basic
     scan_interval: 30
-    resource: <PIHOLE_SERVER_URL>/api/info/version
+    resource: http://<IP_PIHOLE>/api/info/version
     headers:
       "X-FTL-SID": !secret pihole_sid
       "X-FTL-CSRF": !secret pihole_csrf
@@ -105,3 +118,27 @@ rest:
         unique_id: pihole_version_ftl
         value_template: "{{ value_json.version.ftl.local.version}}"
         icon: mdi:update
+
+  - authentication: basic
+    scan_interval: 30
+    resource: http://<IP_PIHOLE>/api/info/system
+    headers:
+      "X-FTL-SID": !secret pihole_sid
+      "X-FTL-CSRF": !secret pihole_csrf
+    sensor:
+      - name: Pihole System Last Boot
+        unique_id: pihole_system_last_boot
+        value_template: "{{ now() - timedelta(seconds=value_json.system.uptime) }}"
+        device_class: timestamp
+      - name: Pihole System RAM Usage
+        unique_id: pihole_system_ram_usage
+        value_template: "{{ value_json.system.memory.ram['%used'] | round(1)}}"
+        icon: mdi:memory
+        state_class: measurement
+        unit_of_measurement: "%"
+      - name: Pihole System CPU Usage
+        unique_id: pihole_system_cpu_usage
+        value_template: "{{ value_json.system.cpu['%cpu'] | round(1)}}"
+        icon: mdi:cpu-64-bit
+        state_class: measurement
+        unit_of_measurement: "%"
